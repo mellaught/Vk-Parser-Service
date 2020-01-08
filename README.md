@@ -38,7 +38,7 @@ Config in `config.json`.
 	"vk": {
 		"url": "https://api.vk.com/method/",
 		"version": "",
-		"token": "PUT YOUR TOKEN HERE"
+		"token": ""
 	},
 	"server": {
 		"host": "",
@@ -76,10 +76,9 @@ UNDER CONSTRUCTION.
 *Body:*
 ```
 {
-
-	"id": string, // User id
-	"intersect_number": int, //current minimum number(N) of occurrences
-	"sex": int, // 1 - woman, 2 - man
+	"id": string // User id
+	"intersect_number": int //current minimum number(N) of occurrences
+	"sex": int // 1 - woman, 2 - man
 	"Message": bool // can write private message
 }
 ```  
@@ -91,10 +90,15 @@ UNDER CONSTRUCTION.
 *Body:*
 ```
 {
-	"text": "Started to follow tx",
-	"responce:"
+	"text": "",
+	"responce": 
 }
 ```
+#### Cases.
+1. - "text": **"The list is empty"**. Means that intersection is empty with current params from request.
+	- "responce": ""
+2. - "text": **"We found N people"**. Means that intersection is not empty and contains N people with current params from request.
+	- "responce": [id_1, id_2, ..., id_N]. Contains people's id from intersection. *Type* **[]int64**.
 
 ## TODO
 -  [x] Parsing members.
