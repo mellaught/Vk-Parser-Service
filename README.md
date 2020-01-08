@@ -12,7 +12,7 @@ UNDER CONSTRUCTION.
 ## List of endpoints.
 
 
-[1. **POST:**  /getProfiles](#get-profiles)
+[1. **POST**  /getProfiles](#get-profiles)
   
 
 ## TORUN.
@@ -102,7 +102,11 @@ UNDER CONSTRUCTION.
 
 ## TODO
 -  [x] Parsing members.
--  [x] Intersectaion groups.
+-  [x] Intersection groups.
+-  [ ] Test for **intersection** methods.
 -  [ ] Parse posts.
+-  [ ] Test for **posts** methods.
 -  [ ] Parse comments.
--  [ ] Check likes.
+-  [ ] Test for **comments** methods.
+-  [ ] Parse what user likes.
+-  [ ] Test for **like** methods.
