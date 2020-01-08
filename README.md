@@ -33,44 +33,27 @@ Config in `config.json`.
 
  
 ```
-
 {
-
-"name": "Vk Parser Service",
-
-"vk": {
-
-"url": "https://api.vk.com/method/",
-
-"version": "",
-
-"token": "PUT YOUR TOKEN HERE"
-
-},
-
-"server": {
-
-"host": "",
-
-"port": ""
-
+	"name": "Vk Parser Service",
+	"vk": {
+		"url": "https://api.vk.com/method/",
+		"version": "",
+		"token": "PUT YOUR TOKEN HERE"
+	},
+	"server": {
+		"host": "",
+		"port": ""
+	}
 }
 ```
 
 #### Default:
 
-* server.host --- Host of **Vk Parser Service**. Type: *String.*  **Default:** localhost.
-
-* node.port --- Port of **Vk Parser Service**. Type*String.*  **Default:** 8080.
-
-* server.host --- Host of app. *String.*  **Default:** localhost.
-
-* server.port --- Port of app. *String.*  **Default:** 8084.
-
-* relay.url --- URL of *Relay* service. *String.*  **Default:** http://127.0.0.1:8081.
-
-* timeouts.foundtx --- Timeout for finding transaction throuth oracle. *Int.*  **Default:**  **2** minute.
-
+* vk.version --- Version of [vk api](https://vk.com/dev/versions). Type: *String.*  **Default:** "5.103".
+* VK.token --- Your private api [token](https://vk.com/dev/permissions?f=1.%20%D0%9F%D1%80%D0%B0%D0%B2%D0%B0%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D1%82%D0%BE%D0%BA%D0%B5%D0%BD%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F). Type: *String.* 
+* server.host --- Host of **Vk Parser Service**. Type: *String.*  **Default:** "localhost".
+* server.port --- Port of **Vk Parser Service**. Type *String.*  **Default:** "8080".
+ 
   
 <div  id='get-profiles'/>
 
@@ -90,8 +73,7 @@ UNDER CONSTRUCTION.
 
 - **POST** `http://service.host:service.port/getProfiles`
 
-
-- Body:
+*Body:*
 ```
 {
 
@@ -106,18 +88,11 @@ UNDER CONSTRUCTION.
 
 `1. StatusCode = 200:`
 
- 
-- Body:
+*Body:*
 ```
 {
-
-text: "Started to follow tx",
-
-status: 0,
-
-mpos_guid: "MPOS Guid",
-
-oracle: "eth"
+	"text": "Started to follow tx",
+	"responce:"
 }
 ```
 
