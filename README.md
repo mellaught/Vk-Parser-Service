@@ -18,7 +18,7 @@ UNDER CONSTRUCTION.
 ## TORUN.
 
 
--  `go get github.com/mrkitikat/vk-parser-service`.
+-  `go get github.com/mrKitikat/Vk-Parser-Service`.
 
 - cd $GOPATH/src/github.com/mrkitikat/vk-parser-service/src
 
@@ -120,3 +120,10 @@ mpos_guid: "MPOS Guid",
 oracle: "eth"
 }
 ```
+
+## TODO
+-  [x] Parsing members.
+-  [x] Intersectaion groups.
+-  [ ] Parse posts.
+-  [ ] Parse comments.
+-  [ ] Check likes.
