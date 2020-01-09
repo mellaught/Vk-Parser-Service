@@ -1,12 +1,13 @@
 package app
 
 import (
-	"VkParser/src/app/models"
-	parser "VkParser/src/app/vk-parser"
 	"log"
 
+	"github.com/mrKitikat/Vk-Parser-Service/src/app/models"
+	parser "github.com/mrKitikat/Vk-Parser-Service/src/app/vk-parser"
+
+	"github.com/buaazp/fasthttprouter"
 	"github.com/valyala/fasthttp"
-	"github.com/valyala/fasthttprouter"
 )
 
 // Main App
@@ -37,6 +38,7 @@ func (a *App) setRouters() {
 
 	// Routing for handling GET Profile from intersection.
 	a.Router.POST("/getProfiles", a.VkParser.GetProfilesHandler)
+
 }
 
 // Run App

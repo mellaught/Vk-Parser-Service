@@ -1,10 +1,11 @@
 package main
 
 import (
-	"VkParser/src/app"
-	"VkParser/src/app/models"
-	"VkParser/src/config"
 	"fmt"
+
+	"github.com/mrKitikat/Vk-Parser-Service/src/app"
+	"github.com/mrKitikat/Vk-Parser-Service/src/app/models"
+	"github.com/mrKitikat/Vk-Parser-Service/src/config"
 )
 
 func main() {

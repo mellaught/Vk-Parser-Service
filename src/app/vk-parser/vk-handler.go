@@ -1,16 +1,17 @@
 package parser
 
 import (
-	"VkParser/src/app/models"
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"github.com/mrKitikat/Vk-Parser-Service/src/app/models"
 
 	"github.com/valyala/fasthttp"
 )
 
 // Handler for API method "/getProfiles" get profiles by intersection
-func (vk *VkParser) GetProfilesHandler(ctx *fasthttp.RequestCtx, handler *fasthttprouter.) {
+func (vk *VkParser) GetProfilesHandler(ctx *fasthttp.RequestCtx) {
 
 	req := &models.IntersecReq{}
 	err := json.Unmarshal(ctx.PostBody(), &req)
@@ -20,7 +21,7 @@ func (vk *VkParser) GetProfilesHandler(ctx *fasthttp.RequestCtx, handler *fastht
 		return
 	}
 
-	groups, groupsCount, err := vk.GetUserGroups(req.Id)
+	groups, groupsCount, err := vk.GetUserSubscriptions(req.Id)
 	if err != nil {
 		fmt.Println(err)
 		ctx.Error(err.Error(), fasthttp.StatusInternalServerError)
