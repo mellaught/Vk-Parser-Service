@@ -77,7 +77,7 @@ UNDER CONSTRUCTION.
 ```
 {
 	"id": string // User id
-	"intersect_number": int //current minimum number(N) of occurrences
+	"intersect_number": int //current minimum number(N) of occurrences, N > 1
 	"sex": int // 1 - woman, 2 - man
 	"Message": bool // can write private message
 }
@@ -99,6 +99,14 @@ UNDER CONSTRUCTION.
 	- "responce": ""
 2. - "text": **"We found N people"**. Means that intersection is not empty and contains N people with current params from request.
 	- "responce": [id_1, id_2, ..., id_N]. Contains people's id from intersection. *Type* **[]int64**.
+
+#### Examples.
+ Returned group members with ids: **[1, 2, 4, 6, 1, 3, 1, 2, 3]**.
+ - IF *intersect_number* = **2** in request ---> intersection is **[1, 2, 3]**.
+- ELSE IF *intersect_number* = **3** in request ---> intersection is **[1]**.
+- ELSE IF *intersect_number* = **4** in request ---> intersection is **[ ]**.
+
+**Other parameters from the request impose additional constraints.**
 
 ## TODO
 -  [x] Parsing members.
