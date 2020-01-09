@@ -22,6 +22,25 @@ type Answer struct {
 	Responce interface{} `json:"responce"`
 }
 
+// Post object describes a wall post and contains the following fields:
+type Post struct {
+	Id       int64  `json:"id"`       // 	Post ID on the wall.
+	Owner_id int64  `json:"owner_id"` // Wall owner ID.
+	Date     int64  `json:"date"`     // Date (in Unix time) the post was added.
+	Text     string `json:"text"`     // 	Text of the post.
+	Comments struct {
+		Count int64 `json:"count"` // Number of comments.
+	} `json:"comments"` //Information about comments to the post; an object containing:
+	Like struct {
+		Count int64 `json:"count"` // Number of users who liked the post.
+	} `json:"likes"` // Information about likes to the post; an object containing
+	Views struct {
+		Count int64 `json:"count"` // Number of users who viewed the post.
+	}
+	PostType string `json:"post_type"` // Type of the post, can be: post, copy, reply, postpone, suggest.
+	
+}
+
 type Members struct {
 	Data struct {
 		Count int     `json:"count"`

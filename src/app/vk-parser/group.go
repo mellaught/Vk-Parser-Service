@@ -1,11 +1,12 @@
 package parser
 
 import (
-	"Vk-Parser-Service/src/app/models"
 	"encoding/json"
 	"fmt"
 	"sync"
 	"time"
+
+	"github.com/mrKitikat/Vk-Parser-Service/src/app/models"
 )
 
 // GetUserSubscriptions gets vk-api method "/users.getSubscriptions" use vk.GET method.
