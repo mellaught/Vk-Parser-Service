@@ -50,7 +50,7 @@ Config in `config.json`.
 #### Default:
 
 * vk.version --- Version of [vk api](https://vk.com/dev/versions). Type: *String.*  **Default:** "5.103".
-* VK.token --- Your private api [token](https://vk.com/dev/permissions?f=1.%20%D0%9F%D1%80%D0%B0%D0%B2%D0%B0%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D1%82%D0%BE%D0%BA%D0%B5%D0%BD%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F). Type: *String.* 
+* vk.token --- Your private api [token](https://vk.com/dev/permissions?f=1.%20%D0%9F%D1%80%D0%B0%D0%B2%D0%B0%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D1%82%D0%BE%D0%BA%D0%B5%D0%BD%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F). Type: *String.* 
 * server.host --- Host of **Vk Parser Service**. Type: *String.*  **Default:** "localhost".
 * server.port --- Port of **Vk Parser Service**. Type *String.*  **Default:** "8080".
  
@@ -103,10 +103,10 @@ UNDER CONSTRUCTION.
 ## TODO
 -  [x] Parsing members.
 -  [x] Intersection groups.
--  [ ] Test for **intersection** methods.
+-  [ ] **Tests** for intersection methods.
 -  [ ] Parse posts.
--  [ ] Test for **posts** methods.
+-  [ ] **Tests** for posts methods.
 -  [ ] Parse comments.
--  [ ] Test for **comments** methods.
+-  [ ] **Tests** for comments methods.
 -  [ ] Parse what user likes.
--  [ ] Test for **like** methods.
+-  [ ] **Tests** for like methods.
