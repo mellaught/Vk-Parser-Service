@@ -71,7 +71,7 @@ UNDER CONSTRUCTION.
 
 - "Content-Type", "application/json"
 
-- **POST** `http://service.host:service.port/getProfiles`
+- `POST http://service.host:service.port/getProfiles`
 
 *Body:*
 ```
