@@ -29,8 +29,8 @@ func (vk *VkParser) GetUserSubscriptions(userId int64) ([]int64, int, error) {
 
 // GetUserGroups gets vk-api method "/users.getSubscriptions" use vk.GET method.
 // Returns response current user's group ids if success else error.
-func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]int64, error) {
-	var allMembers []int64
+func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]models.User, error) {
+	var allMembers []models.User
 	var wg sync.WaitGroup
 	for _, group := range groups {
 		offset := 0
@@ -52,6 +52,7 @@ func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]in
 					time.Sleep(2 * time.Second)
 					continue
 				}
+
 				offset += 1000
 				// Unmarshall into members struct
 				membrs := &models.Members{}
@@ -66,8 +67,15 @@ func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]in
 				if NMembers > 100000 {
 					break
 				}
+				// Check another constraint
+				var necessaryUsers []models.User
+				for _, u := range membrs.Data.Users{
+					if u.CanWrite && !u.IsClosed{
+						necessaryUsers = append(necessaryUsers, u)
+					}
+				}
 
-				allMembers = append(allMembers, membrs.Data.Users...)
+				allMembers = append(allMembers, necessaryUsers...)
 				n++
 			}
 			wg.Done()
@@ -86,9 +94,10 @@ func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]in
 // IF N == 2: returns [1, 2, 7]
 // IF N == 3: returns [1]
 // Returns responce array of user's id if success else error.
-func intersectaion(members []int64, N int) []int64 {
+func intersectaion(members []models.User, N int) []models.User {
 
-	uniqueUsers := make(map[int64]int)
+
+	uniqueUsers := make(map[models.User]int)
 	for _, id := range members {
 		if _, ok := uniqueUsers[id]; ok {
 			uniqueUsers[id]++
@@ -98,7 +107,7 @@ func intersectaion(members []int64, N int) []int64 {
 	}
 
 	// Start find intersection
-	intersUsers := []int64{}
+	intersUsers := []models.User{}
 	for k, v := range uniqueUsers {
 		if v >= N {
 			intersUsers = append(intersUsers, k)

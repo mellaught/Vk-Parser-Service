@@ -13,12 +13,11 @@ func main() {
 	cfg := config.NewViperConfig()
 
 	conf := &models.Config{
-		Token:       cfg.GetString("vk.token"),
+		Token:       cfg.GetStringSlice("vk.token"),
 		Version:     cfg.GetString("vk.version"),
 		URL:         cfg.GetString("vk.URL"),
 		ServiceHost: cfg.GetString("server.host"),
 		ServicePort: cfg.GetString("server.port"),
-		Timeout:     cfg.GetInt("timeouts.balance"),
 	}
 
 	// Create New App with params from conf.

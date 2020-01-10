@@ -14,8 +14,10 @@ func (vk *VkParser) GetLikedPosts(userID int64) error{
 	}
 	likedPosts := []models.Post
 	for _, post := range posts {
-		if like, err := vk.isLiked(userID, groupdID, itemID); err != nil{
+		if like, err := vk.isLiked(userID, groupdID, itemID); err != nil {
 			
+		} else if like {
+			likedPosts = append(likedPosts, itemID)
 		}
 	}
 
@@ -33,12 +35,12 @@ func (vk *VkParser) GetPosts(userID int64) error {
 	return nil
 }
 
-func (vk *VkParser) isLiked(userID, groupdID, itemID int64) error {
+func (vk *VkParser) isLiked(userID, groupdID, itemID int64) (bool, error) {
 	params := "&user_id=" + fmt.Sprintf("%d", userID) + "&type=post&owned_id=-" + fmt.Sprintf("%d", groupdID) + "&item_id=" + fmt.Sprintf("%d", itemID)
 	resp, err := vk.GET("likes.isLiked", params)
 	if err != nil {
-		return err
+		return false, err
 	}
 
-	return nil
+	return true, nil
 }
