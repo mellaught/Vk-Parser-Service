@@ -53,6 +53,7 @@ type User struct {
 	CanWrite        int    `json:"can_write_private_message"`
 	FirstName       string `json:"first_name"`
 	SecondName      string `json:"last_name"`
+	Photo           string `json:"photo_200"`
 	IsClosed        bool   `json:"is_closed"`
 	CanAccessClosed bool   `json:"can_access_closed"`
 }

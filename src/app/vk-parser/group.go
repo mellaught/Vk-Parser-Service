@@ -46,7 +46,7 @@ func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]mo
 					break
 				}
 
-				req := "&group_id=" + fmt.Sprintf("%d", group) + "&fields=sex,can_write_private_message&count=1000&offset=" + fmt.Sprintf("%d", offset)
+				req := "&group_id=" + fmt.Sprintf("%d", group) + "&fields=sex,can_write_private_message,photo_200&count=1000&offset=" + fmt.Sprintf("%d", offset)
 				resp, err := vk.GET("groups.getMembers", req)
 				if err != nil {
 					fmt.Println(err)
@@ -71,24 +71,23 @@ func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]mo
 				}
 
 				// Check another constraint
-				// var necessaryUsers []models.User
-				// for _, u := range membrs.Data.Users {
-				// 	if params.Sex != 0 {
-				// 		if !u.IsClosed && u.Sex == params.Sex {
-				// 			necessaryUsers = append(necessaryUsers, u)
-				// 		}
-				// 	} else {
-				// 		if !u.IsClosed {
-				// 			necessaryUsers = append(necessaryUsers, u)
-				// 		}
-				// 	}
-				// }
+				var necessaryUsers []models.User
+				for _, u := range membrs.Data.Users {
+					if params.Sex != 0 {
+						if !u.IsClosed && u.Sex == params.Sex {
+							necessaryUsers = append(necessaryUsers, u)
+						}
+					} else {
+						if !u.IsClosed {
+							necessaryUsers = append(necessaryUsers, u)
+						}
+					}
+				}
 
-				members = append(members, membrs.Data.Users...)
+				members = append(members, necessaryUsers...)
 			}
 			wg.Done()
 		}(group, NMembers, offset, members, &wg)
-
 	}
 
 	wg.Wait()
@@ -97,9 +96,9 @@ func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]mo
 	allMembers = intersectaion(allMembers, params.N)
 	fmt.Println("Finish intersectaion", len(allMembers))
 	// Check if intersectaion isn't too small.
-	// if len(allMembers) > 10 {
-	// 	return checkParams(allMembers, params), nil
-	// }
+	if len(allMembers) > 10 {
+		return checkParams(allMembers, params), nil
+	}
 
 	return allMembers, nil
 }
@@ -110,7 +109,6 @@ func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]mo
 // IF N == 3: returns [1]
 // Returns responce array of user's id if success else error.
 func intersectaion(members []models.User, N int) []models.User {
-
 	uniqueUsers := make(map[models.User]int)
 	for _, id := range members {
 		if _, ok := uniqueUsers[id]; ok {
