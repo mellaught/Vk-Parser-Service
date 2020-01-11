@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/valyala/fasthttprouter"
+
 	"github.com/mrKitikat/Vk-Parser-Service/src/app/models"
 
 	"github.com/valyala/fasthttp"
 )
 
 // Handler for API method "/getProfiles" get profiles by intersection
-func (vk *VkParser) GetProfilesHandler(ctx *fasthttp.RequestCtx) {
+func (vk *VkParser) GetProfilesHandler(ctx *fasthttp.RequestCtx, _ fasthttprouter.Params) {
 
 	req := &models.IntersecReq{}
 	err := json.Unmarshal(ctx.PostBody(), &req)
@@ -28,7 +30,7 @@ func (vk *VkParser) GetProfilesHandler(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
-	fmt.Printf("User %s have %d groups.\nStart searching intersection...\n", req.Id, groupsCount)
+	fmt.Printf("User %d have %d groups.\nStart searching intersection...\n", req.Id, groupsCount)
 	t := time.Now()
 	users, err := vk.GetMembers(groups, req)
 	if err != nil {

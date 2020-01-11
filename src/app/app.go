@@ -6,8 +6,8 @@ import (
 	"github.com/mrKitikat/Vk-Parser-Service/src/app/models"
 	parser "github.com/mrKitikat/Vk-Parser-Service/src/app/vk-parser"
 
-	"github.com/buaazp/fasthttprouter"
 	"github.com/valyala/fasthttp"
+	"github.com/valyala/fasthttprouter"
 )
 
 // Main App
@@ -20,11 +20,10 @@ type App struct {
 func NewApp(conf *models.Config) *App {
 
 	a := App{
-		Router: fasthttprouter.New(),
+		Router:   fasthttprouter.New(),
+		VkParser: parser.NewVkParser(conf), // Creates Vk Parser
 	}
 
-	// Creates Vk Parser
-	a.VkParser = parser.NewVkParser(conf)
 	// Sets routers
 	a.setRouters()
 

@@ -30,25 +30,26 @@ func (vk *VkParser) GetUserSubscriptions(userId int64) ([]int64, int, error) {
 // GetUserGroups gets vk-api method "/users.getSubscriptions" use vk.GET method.
 // Returns response current user's group ids if success else error.
 func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]models.User, error) {
-	var allMembers []models.User
 	var wg sync.WaitGroup
+	var allMembers []models.User
 	for _, group := range groups {
 		offset := 0
 		NMembers := 0
-		n := 0
+		var members []models.User
 		wg.Add(1)
-		go func(group int64, n int) {
+		go func(group int64, NMembers, offset int, members []models.User, wg *sync.WaitGroup) {
 			for {
 				// Scaned all members.
-				if offset*n > NMembers {
-					//fmt.Printf("All finded members in group %d : %d\n", g, len(allMembers))
+				if offset > NMembers {
+					fmt.Printf("Finined for group %d: %d\n", group, len(members))
+					allMembers = append(allMembers, members...)
 					break
 				}
 
-				params := "&group_id=" + fmt.Sprintf("%d", group) + "&fields=sex,can_write_private_message&count=1000&offset=" + fmt.Sprintf("%d", offset)
-				resp, err := vk.GET("groups.getMembers", params)
+				req := "&group_id=" + fmt.Sprintf("%d", group) + "&fields=sex,can_write_private_message&count=1000&offset=" + fmt.Sprintf("%d", offset)
+				resp, err := vk.GET("groups.getMembers", req)
 				if err != nil {
-					fmt.Println(err, string(resp))
+					fmt.Println(err)
 					time.Sleep(2 * time.Second)
 					continue
 				}
@@ -58,35 +59,49 @@ func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]mo
 				membrs := &models.Members{}
 				err = json.Unmarshal(resp, membrs)
 				if err != nil {
-					fmt.Println(err, string(resp))
+					fmt.Println(err)
 					time.Sleep(2 * time.Second)
 					continue
 				}
+
 				// Count of members in the group
 				NMembers = membrs.Data.Count
 				if NMembers > 100000 {
 					break
 				}
-				// Check another constraint
-				var necessaryUsers []models.User
-				for _, u := range membrs.Data.Users{
-					if u.CanWrite && !u.IsClosed{
-						necessaryUsers = append(necessaryUsers, u)
-					}
-				}
 
-				allMembers = append(allMembers, necessaryUsers...)
-				n++
+				// Check another constraint
+				// var necessaryUsers []models.User
+				// for _, u := range membrs.Data.Users {
+				// 	if params.Sex != 0 {
+				// 		if !u.IsClosed && u.Sex == params.Sex {
+				// 			necessaryUsers = append(necessaryUsers, u)
+				// 		}
+				// 	} else {
+				// 		if !u.IsClosed {
+				// 			necessaryUsers = append(necessaryUsers, u)
+				// 		}
+				// 	}
+				// }
+
+				members = append(members, membrs.Data.Users...)
 			}
 			wg.Done()
-		}(group, n)
+		}(group, NMembers, offset, members, &wg)
 
 	}
 
 	wg.Wait()
 	fmt.Println("Finish", len(allMembers))
+	// Result of intersectaion.
+	allMembers = intersectaion(allMembers, params.N)
+	fmt.Println("Finish intersectaion", len(allMembers))
+	// Check if intersectaion isn't too small.
+	// if len(allMembers) > 10 {
+	// 	return checkParams(allMembers, params), nil
+	// }
 
-	return intersectaion(allMembers, params.N), nil
+	return allMembers, nil
 }
 
 // intersectaion finds for intersection of groups with a current minimum number(N) of occurrences.
@@ -95,7 +110,6 @@ func (vk *VkParser) GetMembers(groups []int64, params *models.IntersecReq) ([]mo
 // IF N == 3: returns [1]
 // Returns responce array of user's id if success else error.
 func intersectaion(members []models.User, N int) []models.User {
-
 
 	uniqueUsers := make(map[models.User]int)
 	for _, id := range members {
@@ -115,4 +129,18 @@ func intersectaion(members []models.User, N int) []models.User {
 	}
 
 	return intersUsers
+}
+
+// Can write message check.
+func checkParams(members []models.User, params *models.IntersecReq) []models.User {
+	var necessaryUsers []models.User
+	for _, u := range members {
+		if params.Message {
+			if u.CanWrite == 1 {
+				necessaryUsers = append(necessaryUsers, u)
+			}
+		}
+	}
+
+	return necessaryUsers
 }

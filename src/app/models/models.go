@@ -49,11 +49,12 @@ type Members struct {
 
 type User struct {
 	Id              int    `json:"id"`
+	Sex             int    `json:"sex"`
+	CanWrite        int    `json:"can_write_private_message"`
 	FirstName       string `json:"first_name"`
 	SecondName      string `json:"last_name"`
 	IsClosed        bool   `json:"is_closed"`
 	CanAccessClosed bool   `json:"can_access_closed"`
-	CanWrite        bool   `json:"can_write_private_message"`
 }
 
 type Groups struct {
